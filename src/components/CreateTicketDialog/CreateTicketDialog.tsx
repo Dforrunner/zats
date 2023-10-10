@@ -13,6 +13,8 @@ import { ZoneContext } from '@/context/ZoneContext/ZoneContext';
 import { Zone } from '@/models/Zone';
 import { Ticket, TicketStatus } from '@/models/Ticket';
 import { TicketQueueContext } from '@/context/TicketQueueContext/TicketQueueContext';
+import { TeamContext } from '@/context/TeamContext/TeamContext';
+import { TeamType } from '@/models/Team';
 
 const ticketTypes: TicketType[] = [
   {
@@ -43,8 +45,9 @@ const Transition = forwardRef(function Transition(
 
 export default function CreateTicketDialog({ open = false, handleClose = () => {} }) {
   const [ ticketType, setTicketType ] = useState<string>('');
-  const { zone } = useContext(ZoneContext);
-  const { addTicket } = useContext(TicketQueueContext);
+  const { team } = useContext(TeamContext);
+  const { ticketList, addTicket } = useContext(TicketQueueContext);
+  const [error, setError] = useState('');
 
   const handleTicketTypeChange= (event: SelectChangeEvent) => {
     setTicketType(event.target.value as string);
@@ -52,6 +55,10 @@ export default function CreateTicketDialog({ open = false, handleClose = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if(team.Type !== TeamType.Zone) {
+      return;
+    }
+
     const form = event.target as any;
     const type = ticketTypes.find(t => t.Id.toString() === form.type.value)
     //TODO: add zone guard clause 
@@ -59,11 +66,22 @@ export default function CreateTicketDialog({ open = false, handleClose = () => {
       Type: type,
       Description: form.description.value,
       Title: form.title.value,
-      Zone: zone,
+      Zone: team.Zone,
       CreatedOn: new Date(),
       Status: TicketStatus.Active
     } as Ticket;
 
+    const ticketExists = ticketList.some(t => 
+      t.Type.Id === ticket.Type.Id &&
+      t.Zone.Id === ticket.Zone.Id &&
+      t.Status !== TicketStatus.Canceled &&
+      t.Status !== TicketStatus.Completed);
+
+    if(ticketExists) {
+      setError(`There is already an active ticket for ${ticket.Type.Text} in this zone`);
+      return;
+    }
+    setError('');
     addTicket(ticket);
     setTicketType('');
     handleClose();
@@ -134,8 +152,11 @@ export default function CreateTicketDialog({ open = false, handleClose = () => {
               Submit
           </Button>
         </div>
-         
       </form>
+
+      <div className='text-red-500 text-center'>
+        {error}
+      </div>
     </Dialog>
   );
 }

@@ -2,16 +2,17 @@ import { Typography, Button } from "@mui/material";
 import { QuickRequest } from '@/models/QuickRequest';
 import { v4 as uuidv4 } from 'uuid';
 import { TicketQueueContext } from "@/context/TicketQueueContext/TicketQueueContext";
-import { ZoneContext } from "@/context/ZoneContext/ZoneContext";
 import { useContext } from "react";
 import { TicketStatus } from "@/models/Ticket";
 import { ZoneStatus } from "@/models/Zone";
+import { TeamContext } from "@/context/TeamContext/TeamContext";
+import { TeamType } from "@/models/Team";
 
 const quickRequests: QuickRequest[] = [
     {
         Id: 1,
         Name: 'Fork Lift',
-        ZoneIds: [1],
+        ZoneIds: [1,2],
         Ticket: {
             Id: 10,
             Type: {
@@ -41,13 +42,13 @@ const quickRequests: QuickRequest[] = [
                 Name: 'Zone 1'
             },
             CreatedOn: new Date(),
-            Status: TicketStatus.Canceled
+            Status: TicketStatus.Active
         }
     },
     {
         Id: 3,
         Name: 'Supervisor',
-        ZoneIds: [1],
+        ZoneIds: [1, 2],
         Ticket: {
             Id: 10,
             Type: {
@@ -78,13 +79,13 @@ const quickRequests: QuickRequest[] = [
                 Status: ZoneStatus.NeedsAssistance
             },
             CreatedOn: new Date(),
-            Status: TicketStatus.Canceled
+            Status: TicketStatus.Active
         }
     },
 ]
   
 export default function QuickRequest() {
-    const { zone } = useContext(ZoneContext);
+    const { team } = useContext(TeamContext);
     const { addTicket } = useContext(TicketQueueContext);
 
     const handleQuickRequest = (request: QuickRequest) => {
@@ -98,8 +99,8 @@ export default function QuickRequest() {
         </Typography>
 
         <div className='flex gap-5 p-5 justify-center w-full'>
-          {quickRequests
-                .map(request => request.ZoneIds.includes(zone.Id) &&
+          {team.Type === TeamType.Zone && quickRequests
+                .map(request => request.ZoneIds.includes(team.Zone.Id) &&
                     <Button
                         className='bg-blue-500 w-[30%] h-[60px]'
                         variant='contained'

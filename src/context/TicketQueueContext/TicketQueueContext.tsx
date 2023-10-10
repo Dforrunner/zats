@@ -35,7 +35,7 @@ const initialState: TicketQueueContext = {
         {
             Id: 5,
             Type: {
-                Id: 2,
+                Id: 3,
                 Text: 'Supervisor'
             },
             Description: 'Super requested',
@@ -50,7 +50,7 @@ const initialState: TicketQueueContext = {
         {
             Id: 2,
             Type: {
-                Id: 2,
+                Id: 3,
                 Text: 'Supervisor'
             },
             Description: 'Super requested',
@@ -65,7 +65,7 @@ const initialState: TicketQueueContext = {
         {
             Id: 3,
             Type: {
-                Id: 3,
+                Id: 2,
                 Text: 'Maintenance'
             },
             Description: 'Need repair done',

@@ -1,18 +1,20 @@
 "use client"
 
-import { Button } from '@mui/material'
-import { useState } from 'react';
+import { Button, Typography } from '@mui/material'
+import { useContext, useState } from 'react';
 
 import CreateTicketDialog from '@/components/CreateTicketDialog';
 import QuickRequests from '@/components/QuickRequests';
 
-import RequestTickets from '@/components/TicketList/RequestTicket';
 import BackButton from '@/components/BackButton';
 import TicketList from '@/components/TicketList';
+import { TeamContext } from '@/context/TeamContext/TeamContext';
+import { TeamType } from '@/models/Team';
 
 export default function Page() {
   const [open, setOpen] = useState(false);
-  
+  const {team} = useContext(TeamContext);
+
   const handleCreateTicketDialogOpen = () => {
     setOpen(true);
   };
@@ -24,6 +26,9 @@ export default function Page() {
   return (
     <main className="flex min-h-screen max-h-screen gap-4 flex-col items-center">
       <BackButton />
+      <Typography variant='h4' className='pt-4'>
+        {team.Type === TeamType.Zone && team.Zone.Name}
+      </Typography>
       <QuickRequests />
 
       <Button
