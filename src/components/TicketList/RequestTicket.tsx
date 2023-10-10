@@ -73,10 +73,12 @@ export default function RequestTicket({ ticket }: { ticket: Ticket }) {
                 <div>Created On: {formatDate(ticket.CreatedOn)}</div>
                 <div>
                     Accepted On: 
+                    <span className='pl-1'>
                     {ticket.AcceptedOn
                         ? formatDate(ticket.AcceptedOn) 
-                        : ' Waiting'
+                        : 'Waiting'
                     }
+                    </span>
                 </div>
             </div>
             <div className='flex gap-2'>

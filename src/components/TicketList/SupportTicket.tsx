@@ -13,10 +13,16 @@ export default function SupportTicket({ ticket }: { ticket: Ticket }) {
     const [openTicketStatus, setOpenTicketStatus] = useState(false);
     
     const handleStatusChange = (status: TicketStatus) => {
-        updateTicket({
+        const updatedTicket = {
             ...ticket,
             Status: status
-        })
+        };
+
+        if (status === TicketStatus.Accepted) {
+            updatedTicket.AcceptedOn = new Date();
+        }
+        
+        updateTicket(updatedTicket)
         setTicketStatus(status);
         console.log({ticketStatus, status});
         setOpenTicketStatus(false);
