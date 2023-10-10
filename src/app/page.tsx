@@ -7,8 +7,6 @@ import { useRouter } from 'next/navigation';
 import ZoneSelection from '@/components/ZoneSelection';
 import { TeamContext } from '@/context/TeamContext/TeamContext';
 import { Team, TeamType } from '@/models/Team';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { Zone } from '@/models/Zone';
 import BackButton from '@/components/BackButton';
 
 export default function Home() {
@@ -16,26 +14,11 @@ export default function Home() {
   const { changeTeam } = useContext(TeamContext);
   const router = useRouter();
 
-  const handleZoneSelection = (zone: Zone) => {
-    if (teamType === TeamType.Zone) {
-      const selectedTeam: Team = {
-        Type: teamType,
-        Zone: zone,
-        Name: 'Zone Team'
-      }
-
-      changeTeam(selectedTeam);
-      router.push('/zones');
-    } else if (teamType === TeamType.Support) {
-      const selectedTeam: Team = {
-        Type: teamType,
-        Zones: [zone],
-        Name: 'Support Team'
-      }
-
-      changeTeam(selectedTeam);
-      router.push('/board');
-    }
+  const handleZoneSelection = (team: Team) => {
+    changeTeam(team);
+    teamType === TeamType.Zone
+      ? router.push('/zones')
+      : router.push('/board');   
   }
 
   return (

@@ -30,7 +30,7 @@ const initialState: TicketQueueContext = {
                 Status: ZoneStatus.NeedsAssistance
             },
             CreatedOn: new Date(),
-            Status: TicketStatus.Accepted
+            Status: TicketStatus.Active
         },
         {
             Id: 5,

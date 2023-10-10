@@ -1,31 +1,24 @@
 import { useContext, useState } from 'react';
 import { Ticket, TicketStatus } from "@/models/Ticket"
-import { CardHeader, CardContent, Typography, Button, IconButton, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material"
+import { Button } from "@mui/material"
 import { v4 as uuidv4 } from 'uuid';
 import { TicketQueueContext } from '@/context/TicketQueueContext/TicketQueueContext';
-import { ZoneContext } from '@/context/ZoneContext/ZoneContext';
 import { formatDate } from '@/helpers/datetime-format';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import CloseIcon from '@mui/icons-material/Close';
-import CheckIcon from '@mui/icons-material/Check';
 import Brightness1Icon from '@mui/icons-material/Brightness1';
 
-const TicketCard = ({ ticket }: { ticket: Ticket }) => {
-    const { removeTicket, updateTicket } = useContext(TicketQueueContext);
-    const [startDeletion, setStartDeletion] = useState(false);
-    const [openTicketStatus, setOpenTicketStatus] = useState(false);
 
-    const handleDelete = () => {
-        removeTicket(ticket);
-        setStartDeletion(false)
-    }
+export default function SupportTicket({ ticket }: { ticket: Ticket }) {
+    const { removeTicket, updateTicket } = useContext(TicketQueueContext);
+    const [ticketStatus, setTicketStatus] = useState<keyof typeof TicketStatus>(TicketStatus.Active);
+    const [openTicketStatus, setOpenTicketStatus] = useState(false);
     
-    const handleTicketStatusChange = (status: TicketStatus) => {
+    const handleStatusChange = (status: TicketStatus) => {
         updateTicket({
             ...ticket,
             Status: status
         })
+        setTicketStatus(status);
+        console.log({ticketStatus, status});
         setOpenTicketStatus(false);
     }
 
@@ -52,7 +45,7 @@ const TicketCard = ({ ticket }: { ticket: Ticket }) => {
                             key={uuidv4()}
                             className={`w-[130px] ${status}`}
                             startIcon={<Brightness1Icon className={status} />}
-                            onClick={() => handleTicketStatusChange(status)}
+                            onClick={() => handleStatusChange(status)}
                         >
                             {status}
                         </Button>
@@ -80,52 +73,26 @@ const TicketCard = ({ ticket }: { ticket: Ticket }) => {
                 </div>
             </div>
             <div className='flex gap-2'>
-                {!startDeletion && 
-                <>
-                    <IconButton onClick={() => setStartDeletion(true)}>
-                        <DeleteIcon fontSize="large"/>
-                    </IconButton>
-                    <IconButton>
-                        <EditIcon fontSize="large"/>
-                    </IconButton>
-                </>
+                {ticketStatus === TicketStatus.Active && 
+                <Button
+                    variant='outlined'
+                    onClick={() => handleStatusChange(TicketStatus.Accepted)}
+                    className={ticketStatus}
+                >
+                    Accept
+                </Button>
                 }
-                
-                {startDeletion &&
-                <div className='flex items-center gap-3'>
-                    <div className='text-2xl'>Confirm Deletion:</div>
-                    <IconButton className='bg-gray-400' onClick={() => setStartDeletion(false)}>
-                        <CloseIcon fontSize="large"/>
-                    </IconButton>
-                    <IconButton className='bg-blue-500' onClick={() => handleDelete()}>
-                        <CheckIcon fontSize="large"/>
-                    </IconButton>
-                </div>
+                {ticketStatus === TicketStatus.Accepted && 
+                <Button
+                    variant='outlined'
+                    onClick={() => handleStatusChange(TicketStatus.Completed)}
+                    className={ticketStatus}
+                >
+                    Complete
+                </Button>
                 }
-            </div>
-            
-            {/* 
-            <div className='hidden'>
-                {Object.values(TicketStatus).map(s => 
-                    <Button key={uuidv4()} variant='outlined'>{s}</Button>
-                )}
-            </div> */}
-            
+            </div>            
         </div>
-    </div>
-    )
-}
-
-export default function RequestTickets() {
-    const { ticketList } = useContext(TicketQueueContext);
-    const { zone } = useContext(ZoneContext);
-
-    return (
-    <div className='flex flex-col items-center gap-3 w-full overflow-auto h-full pb-10'>
-        {ticketList.map(ticket =>
-            ticket.Zone.Id === zone?.Id && ticket.Status !== TicketStatus.Completed &&
-            <TicketCard key={uuidv4()} ticket={ticket} />
-        )}
     </div>
     )
 }

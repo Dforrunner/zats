@@ -4,6 +4,7 @@ import { Zone, ZoneStatus } from '@/models/Zone';
 import { ZoneContext } from '@/context/ZoneContext/ZoneContext';
 import { useContext } from "react";
 import { Team, TeamType } from "@/models/Team";
+import { TeamContext } from "@/context/TeamContext/TeamContext";
 
 const zones: Zone[] = [
   {
@@ -25,72 +26,70 @@ const zones: Zone[] = [
 
 const teams: Team[] = [
   {
+    Id: 11,
+    Name: 'All Tickets',
+    Type: TeamType.Support,
+    Zones: zones
+  },
+  {
     Id: 1,
-    Name: 'Group 1',
+    Name: 'Zone Group 1',
     Type: TeamType.Support,
     Zones: zones
   },
   {
     Id: 2,
-    Name: 'Zone Team',
-    Type: TeamType.Zone,
-    Zone: zones[0]
+    Name: 'Zone Group 2',
+    Type: TeamType.Support,
+    Zones: [zones[0], zones[1]]
   },
   {
     Id: 3,
     Name: 'Zone Team',
     Type: TeamType.Zone,
-    Zone: zones[1]
+    Zone: zones[0]
   },
   {
     Id: 4,
     Name: 'Zone Team',
     Type: TeamType.Zone,
-    Zone: zones[2]
+    Zone: zones[1]
   },
   {
-    Id: 2,
-    Name: 'Group 2',
-    Type: TeamType.Support,
-    Zones: zones
+    Id: 5,
+    Name: 'Zone Team',
+    Type: TeamType.Zone,
+    Zone: zones[2]
   },
 ];
 
 interface Props {
   teamType: TeamType,
-  handleSelection: (zone: Zone) => void
+  handleSelection: (team: Team) => void
 }
 export default function ZoneSelection({ teamType, handleSelection }: Props) {
-    const handleZoneChange = (zone: Zone) => {
-      handleSelection(zone);
+    const { team } = useContext(TeamContext);
+
+    const handleZoneChange = (team: Team) => {
+      handleSelection(team);
     } 
     
     return (
-        <div className='p-5 w-full flex flex-col gap-3 items-center'>
-          {/* <FormControl fullWidth>
-              <InputLabel id="zone-select-label">Zone Selection</InputLabel>
-              <Select
-                  labelId="zone-select-label"
-                  value={zone?.Id ? zone.Id.toString() : ''}
-                  label="Zone Selection"
-                  onChange={handleZoneChange}
-              >
-                  {zones.map(zone => <MenuItem key={uuidv4()} value={zone.Id}>{zone.Name}</MenuItem>)}
-              </Select>
-          </FormControl> */}
+      <div className='p-5 w-full flex flex-col gap-3 items-center'>
         <Typography variant="h4" className="text-gray-700">
           Select Zone { teamType === TeamType.Support && 'Group'}
         </Typography>
-        {zones.map(zone =>
+        {teams.map(t =>
+          t.Type === teamType &&
           <Button
             key={uuidv4()}
             variant="contained"
             className='bg-blue-500 w-full h-[60px]'
-            onClick={() => handleZoneChange(zone)}
+            onClick={() => handleZoneChange(t)}
           >
-            {zone.Name}
+            {t.Type === TeamType.Zone ? t.Zone.Name : t.Name}
           </Button>)
         }
-        </div>
+      </div>
     )
 }
