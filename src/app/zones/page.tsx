@@ -11,10 +11,12 @@ import TicketList from '@/components/TicketList';
 import { TeamContext } from '@/context/TeamContext/TeamContext';
 import { TeamType } from '@/models/Team';
 
-export default function Page() {
+export default function Page({ params }: {
+  params: string
+}) {
   const [open, setOpen] = useState(false);
   const {team} = useContext(TeamContext);
-
+  console.log({params})
   const handleCreateTicketDialogOpen = () => {
     setOpen(true);
   };
