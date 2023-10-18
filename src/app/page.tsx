@@ -8,13 +8,7 @@ import { Team, TeamType } from '@/models/Team';
 import BackButton from '@/components/BackButton';
 import { cookies } from 'next/headers'
 
-export function getData() {
-  const cookieStore = cookies()
-  const ip = cookieStore.get('reqData')
-  return ip
-}
-
-export default async function Home() {
+export default function Home() {
   // const [teamType, setTeamType] = useState<TeamType>();
   // const { changeTeam } = useContext(TeamContext);
   // const router = useRouter();
@@ -25,7 +19,8 @@ export default async function Home() {
   //     ? router.push('/zones')
   //     : router.push('/board');
   // }
-  const ip = await getData()
+  const cookieStore = cookies()
+  const ip = cookieStore.get('reqData')
   console.log({ip})
 
   return (
