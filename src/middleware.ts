@@ -1,15 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
-import requestIp from 'request-ip';
 
+const allowedIps = [
+    '71.10.209.243'
+]
 export default function middleware(req: NextRequest ) {
-    // const detectedIp = requestIp.getClientIp(req);
-    //console.error(req)
-    const response = NextResponse.next();
-    console.log(req);
-    response.cookies.set('reqData', JSON.stringify({
-        ip: `${req.ip}`,
+    const unauthorizedPagePath = '/out';
+    if(req.nextUrl.pathname === unauthorizedPagePath) {
+        return;
+    }
+    if(req.ip && allowedIps.includes(req.ip)) {
+        const response = NextResponse.next();
+        response.cookies.set('reqData', JSON.stringify({
+            ip: `${req.ip}`,
+            geo: req.geo,
+        }))
+        return response;
+    }
+    console.log({
+        ip: req.ip,
         geo: req.geo,
-    }))
-    // console.log(cookie)
-    return response;
+    })
+    return NextResponse.redirect(new URL(unauthorizedPagePath, req.url));
 }
