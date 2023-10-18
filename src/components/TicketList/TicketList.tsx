@@ -1,3 +1,5 @@
+"user client";
+
 import { TicketQueueContext } from "@/context/TicketQueueContext/TicketQueueContext";
 import { ZoneContext } from "@/context/ZoneContext/ZoneContext";
 import { TicketStatus } from "@/models/Ticket";

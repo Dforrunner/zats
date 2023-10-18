@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Button, Typography } from '@mui/material'
 import { useContext, useState } from 'react';

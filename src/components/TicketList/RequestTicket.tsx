@@ -1,3 +1,5 @@
+"use client";
+
 import { useContext, useState } from 'react';
 import { Ticket, TicketStatus } from "@/models/Ticket"
 import { Button, IconButton } from "@mui/material"
