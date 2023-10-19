@@ -18,7 +18,7 @@ export default function FulfillerTicket({ ticket, queue }: Props) {
 
   const mutation = useMutation({
     mutationFn: (ticket: Ticket) => {
-      return axios.post(POST.Ticket, ticket);
+      return axios.put(POST.Ticket, ticket);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

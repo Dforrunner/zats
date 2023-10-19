@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import FulfillerTicket from "./FulfillerTicket";
 import { GET } from "@/models/Endpoints";
+import PageHeader from "../PageHeader";
 
 interface Props {
   id?: string;
@@ -20,6 +21,8 @@ export default function FulfillerTicketList({ id }: Props) {
   });
   return (
     <div className="flex flex-col items-center gap-3 w-full overflow-auto h-full pb-10">
+      <PageHeader title={data?.Name} />
+
       {data?.Tickets?.map((ticket) => (
         <FulfillerTicket
           queue={data}

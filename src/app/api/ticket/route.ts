@@ -20,6 +20,31 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    const ticket = await req.json();
+    const insertedTicket = await prisma.ticket.create({
+      data: {
+        RequestQueue: {
+          connect: {
+            Id: ticket.RequestQueueId
+          }
+        },
+        Requester: {
+          connect: {
+            Id: ticket.RequesterId
+          }
+        }
+      }
+    })
+
+    return NextResponse.json(insertedTicket, { status: 200 });
+  } catch (e) {
+    console.error(e)
+    return NextResponse.json({ error: 'Failed to create ticket' }, { status: 500 });
+  }
+}
+
+export async function PUT(req: NextRequest) {
+  try {
     const ticket = await req.json() as Ticket;
     const data = {} as any;
 

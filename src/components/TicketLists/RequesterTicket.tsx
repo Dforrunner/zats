@@ -16,7 +16,7 @@ interface Props {
 export default function RequesterTicket({ ticket, area }: Props) {
   const mutation = useMutation({
     mutationFn: (ticket: Ticket) => {
-      return axios.post(POST.Ticket, ticket);
+      return axios.put(POST.Ticket, ticket);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
