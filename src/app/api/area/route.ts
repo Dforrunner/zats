@@ -9,14 +9,14 @@ export async function GET(req: NextRequest) {
   // }
 
   try {
-    const requestQueue = await prisma.requestQueue.findFirst({
+    const requestQueue = await prisma.requestArea.findFirst({
       where: {
         Id: Number(queueId),
       },
       include: {
         Tickets: {
           include: {
-            Requester: true
+            RequestQueue: true
           }
         }
       },

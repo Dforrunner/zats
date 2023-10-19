@@ -5,21 +5,21 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
 }
 
 model Ticket {
   Id             Int          @id @default(autoincrement())
-  RequestQueue   RequestQueue @relation(fields: [RequestQueueId], references: [Id])
+  RequestQueue   RequestQueue @relation(fields: [RequestQueueId], references: [Id], onDelete: NoAction, onUpdate: NoAction)
   RequestQueueId Int
-  Requestor      RequestArea  @relation(fields: [RequestorId], references: [Id])
+  Requester      RequestArea  @relation(fields: [RequesterId], references: [Id], onDelete: NoAction, onUpdate: NoAction)
   CreatedOn      DateTime     @default(now())
   AssignedOn     DateTime?
   StartedOn      DateTime?
+  CompletedOn    DateTime?
   Status         String       @default("Open")
-  RequestorId    Int
+  RequesterId    Int
 
   @@map(name: "Tickets")
 }
@@ -55,12 +55,13 @@ model RequestQueue {
 }
 
 model RequestArea {
-  Id      Int      @id @default(autoincrement())
-  Name    String   @db.VarChar(64)
-  Status  String   @default("Active")
-  Plant   Plant    @relation(fields: [PlantId], references: [Id])
-  PlantId Int
-  Ticket  Ticket[]
+  Id          Int      @id @default(autoincrement())
+  Name        String   @db.VarChar(64)
+  Description String?  @db.VarChar(64)
+  Status      String   @default("Active")
+  Plant       Plant    @relation(fields: [PlantId], references: [Id])
+  PlantId     Int
+  Tickets     Ticket[]
 
   @@map(name: "RequestAreas")
 }

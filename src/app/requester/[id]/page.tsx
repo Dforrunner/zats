@@ -1,14 +1,13 @@
-'use client';
-
-import TicketList from '@/components/TicketList';
-import PageHeader from '@/components/PageHeader';
-import { View } from '@/models/View';
-
-export default function Page() {
+import { RequesterTicketList } from '@/components/TicketLists';
+interface Props {
+  params: {
+    id: string;
+  };
+}
+export default function Page({ params }: Props) {
   return (
-    <main className='flex min-h-screen max-h-screen gap-10 flex-col items-center'>
-      <PageHeader title='Queue' />
-      {/* <TicketList view={View.Requestor} /> */}
+    <main className='w-screen h-screen'>
+      <RequesterTicketList id={params.id} />
     </main>
   );
 }

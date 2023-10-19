@@ -1,14 +1,17 @@
+'use client';
+
 import { RequestQueue } from '@/models/RequestQueue';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import Link from '../Link';
 import { v4 as uuidv4 } from 'uuid';
+import { GET } from '@/models/Endpoints';
 
 export default function QueueSelection() {
-  const { data, isLoading, isError } = useQuery({
+  const { data } = useQuery({
     queryKey: ['requestQueueList'],
     queryFn: async () => {
-      const { data } = await axios.get('/api/queues');
+      const { data } = await axios.get(GET.RequestQueues);
       return data as RequestQueue[];
     },
   });

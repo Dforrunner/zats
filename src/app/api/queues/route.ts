@@ -12,6 +12,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(requestQueues, { status: 200 });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: 'Failed to query Request requestQueues' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to query Request Queues' }, { status: 500 });
   }
 }

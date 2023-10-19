@@ -11,6 +11,6 @@ export default function BackButton({onClick}: Props) {
     const router = useRouter();
     
     return (
-        <Button className='absolute top-4 left-5 bg-gray-400' onClick={() => onClick ? onClick() : router.back()} variant='contained' startIcon={<ArrowBackIosIcon />}>Back</Button>
+        <Button className='absolute top-5 left-5 bg-gray-400' onClick={() => onClick ? onClick() : router.back()} variant='contained' startIcon={<ArrowBackIosIcon />}>Back</Button>
     )
 }

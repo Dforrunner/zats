@@ -16,9 +16,7 @@ export default function RootLayout({ children }: Props) {
         <title>ZATS</title>
       </head>
       <body>
-        <TanStackProvider>
-        {children}
-        </TanStackProvider>
+        <TanStackProvider>{children}</TanStackProvider>
       </body>
     </html>
   );

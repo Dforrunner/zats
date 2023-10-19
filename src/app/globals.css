@@ -19,22 +19,18 @@
 body {
   color: rgb(var(--foreground-rgb));
   padding: 0;
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb)))
     rgb(var(--background-start-rgb));
-
 }
 
-.Active {
+.Open {
   color: rgb(0, 97, 177);
 }
-.Pending {
+.Assigned {
   color: rgb(224, 183, 0);
 }
-.Accepted {
+.InProgress,
+.Confirmed {
   color: rgb(4, 194, 4);
 }
 .Completed {
@@ -42,4 +38,22 @@ body {
 }
 .Canceled {
   color: rgb(192, 2, 2);
+}
+
+.Accept {
+  color: rgb(0, 97, 177);
+  border-color: rgb(0, 97, 177);
+}
+.Start,
+.ConfirmCompletion {
+  color: rgb(4, 194, 4);
+  border-color: rgb(4, 194, 4);
+}
+.Complete {
+  color: rgb(5, 42, 255);
+  border-color: rgb(5, 42, 255);
+}
+.CloseRequest {
+  color: rgba(61, 61, 61, 0.7);
+  border-color: rgba(61, 61, 61, 0.7);
 }

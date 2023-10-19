@@ -7,14 +7,15 @@ export enum TicketStatus {
   Assigned = 'Assigned',
   Completed = 'Completed',
   Canceled = 'Canceled',
+  Confirmed = 'Confirmed'
 }
 
 export interface Ticket {
   Id: number;
-  Type: RequestQueue;
-  TypeId?: number;
-  RequestorId: number;
-  Requestor: RequestArea;
+  RequestQueue: RequestQueue;
+  RequestQueueId?: number;
+  RequesterId: number;
+  Requester: RequestArea;
   CreatedOn: Date;
   AssignedOn?: Date;
   StartedOn?: Date;
