@@ -1,29 +1,33 @@
-"user client";
+'user client';
 
-import { TicketQueueContext } from "@/context/TicketQueueContext/TicketQueueContext";
-import { ZoneContext } from "@/context/ZoneContext/ZoneContext";
-import { TicketStatus } from "@/models/Ticket";
-import { useContext } from "react";
-import RequestTicket from "./RequestTicket";
 import { v4 as uuidv4 } from 'uuid';
-import { TeamContext } from "@/context/TeamContext/TeamContext";
-import { TeamType } from "@/models/Team";
-import SupportTicket from "./SupportTicket";
+import { View } from '@/models/View';
+import { Ticket } from '@/models/Ticket';
+import TicketBase from './TicketBase';
+import { RequestQueue } from '@/models/RequestQueue';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 
-export default function TicketList() {
-    const { ticketList } = useContext(TicketQueueContext);
-    const { team } = useContext(TeamContext);
+interface Props {
+  view: View;
+  id?: string;
+}
 
-    return (
+export default function TicketList({ view, id }: Props) {
+    console.log({id});
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['requestQueue'],
+    queryFn: async () => {
+      const { data } = await axios.get('/api/queue', { params: { Id: id } });
+      return data as RequestQueue;
+    },
+  });
+  return (
     <div className='flex flex-col items-center gap-3 w-full overflow-auto h-full pb-10'>
-        {team.Type === TeamType.Zone && ticketList.map(ticket =>
-            ticket.Zone.Id === team.Zone.Id &&
-            <RequestTicket key={uuidv4()} ticket={ticket} />
-        )}
-        {team.Type === TeamType.Support && ticketList.map(ticket =>
-            team.Zones.some(zone => zone.Id === ticket.Zone.Id) &&
-            <SupportTicket key={uuidv4()} ticket={ticket} />
-        )}
+      {view === View.Requestor &&
+        data?.Tickets?.map((ticket) => <TicketBase key={uuidv4()} ticket={ticket} />)}
+      {view === View.Fulfiller &&
+        data?.Tickets?.map((ticket) => <TicketBase key={uuidv4()} ticket={ticket} />)}
     </div>
-    )
+  );
 }

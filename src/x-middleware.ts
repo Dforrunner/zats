@@ -3,7 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 const allowedIps = [
     '71.10.209.243'
 ]
-export default function middleware(req: NextRequest ) {
+export default function middleware(req: NextRequest) {
+    
     const unauthorizedPagePath = '/out';
     if(req.nextUrl.pathname === unauthorizedPagePath) {
         return;

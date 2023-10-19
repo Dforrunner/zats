@@ -2,7 +2,6 @@
 import React, { createContext, useReducer, ReactNode  } from 'react';
 import TicketQueueReducer from './TicketQueueReducer';
 import { Ticket, TicketStatus } from '@/models/Ticket';
-import { ZoneStatus } from '@/models/Zone';
 
 interface PropTypes {
     children?: ReactNode
@@ -16,68 +15,7 @@ interface TicketQueueContext {
 }
 
 const initialState: TicketQueueContext = {
-    ticketList: [
-        {
-            Id: 1,
-            Type: {
-                Id: 1,
-                Text: 'Fork Lift'
-            },
-            Description: 'Need product moved',
-            Zone: {
-                Id: 1,
-                Name: 'Zone 1',
-                Status: ZoneStatus.NeedsAssistance
-            },
-            CreatedOn: new Date(),
-            Status: TicketStatus.Active
-        },
-        {
-            Id: 5,
-            Type: {
-                Id: 3,
-                Text: 'Supervisor'
-            },
-            Description: 'Super requested',
-            Zone: {
-                Id: 1,
-                Name: 'Zone 1',
-                Status: ZoneStatus.NeedsAssistance
-            },
-            CreatedOn: new Date(),
-            Status: TicketStatus.Active
-        },
-        {
-            Id: 2,
-            Type: {
-                Id: 3,
-                Text: 'Supervisor'
-            },
-            Description: 'Super requested',
-            Zone: {
-                Id: 2,
-                Name: 'Zone 2',
-                Status: ZoneStatus.Active
-            },
-            CreatedOn: new Date(),
-            Status: TicketStatus.Active
-        },
-        {
-            Id: 3,
-            Type: {
-                Id: 2,
-                Text: 'Maintenance'
-            },
-            Description: 'Need repair done',
-            Zone: {
-                Id: 3,
-                Name: 'Zone 3',
-                Status: ZoneStatus.Inactive
-            },
-            CreatedOn: new Date(),
-            Status: TicketStatus.Active
-        }
-    ],
+    ticketList: [],
     addTicket: (ticket: Ticket) => {},
     removeTicket: (ticket: Ticket) => {},
     updateTicket: (ticket: Ticket) => {}

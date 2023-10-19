@@ -1,0 +1,66 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model Ticket {
+  Id             Int          @id @default(autoincrement())
+  RequestQueue   RequestQueue @relation(fields: [RequestQueueId], references: [Id])
+  RequestQueueId Int
+  Requestor      RequestArea  @relation(fields: [RequestorId], references: [Id])
+  CreatedOn      DateTime     @default(now())
+  AssignedOn     DateTime?
+  StartedOn      DateTime?
+  Status         String       @default("Open")
+  RequestorId    Int
+
+  @@map(name: "Tickets")
+}
+
+model AuthorizedIpAddress {
+  Id      Int    @id @default(autoincrement())
+  Ip      String
+  Plant   Plant  @relation(fields: [PlantId], references: [Id])
+  PlantId Int
+
+  @@map(name: "AuthorizedIpAddresses")
+}
+
+model Plant {
+  Id           Int                   @id @default(autoincrement())
+  Name         String                @db.VarChar(64)
+  IpAddresses  AuthorizedIpAddress[]
+  RequestQueue RequestQueue[]
+  RequestArea  RequestArea[]
+
+  @@map(name: "Plants")
+}
+
+model RequestQueue {
+  Id      Int      @id @default(autoincrement())
+  Name    String   @db.VarChar(64)
+  Status  String?  @db.VarChar(24)
+  Plant   Plant    @relation(fields: [PlantId], references: [Id])
+  PlantId Int
+  Tickets Ticket[]
+
+  @@map(name: "RequestQueues")
+}
+
+model RequestArea {
+  Id      Int      @id @default(autoincrement())
+  Name    String   @db.VarChar(64)
+  Status  String   @default("Active")
+  Plant   Plant    @relation(fields: [PlantId], references: [Id])
+  PlantId Int
+  Ticket  Ticket[]
+
+  @@map(name: "RequestAreas")
+}

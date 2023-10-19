@@ -1,27 +1,23 @@
-import { TicketType } from "./TicketType";
-import { Zone } from "./Zone";
+import { RequestQueue } from './RequestQueue';
+import { RequestArea } from './RequestArea';
 
 export enum TicketStatus {
-    Active = 'Active',
-    Pending = 'Pending',
-    Accepted = 'Accepted',
-    Completed = 'Completed',
-    Canceled = 'Canceled'
+  Open = 'Open',
+  InProgress = 'In Progress',
+  Assigned = 'Assigned',
+  Completed = 'Completed',
+  Canceled = 'Canceled',
 }
 
 export interface Ticket {
-    Id: number,
-    Type: TicketType,
-    Title?: string,
-    Description?: string,
-    Zone: Zone,
-    RequesterId?: number,
-    QueueId?: number,
-    CreatedOn: Date,
-    AcceptedOn?: Date,
-    CompletedOn?: Date,
-    Status: TicketStatus,
-    CompleterId?: number,
-    PlaceInQueue?: number,
-    EstimatedWaitTime?: string
+  Id: number;
+  Type: RequestQueue;
+  TypeId?: number;
+  RequestorId: number;
+  Requestor: RequestArea;
+  CreatedOn: Date;
+  AssignedOn?: Date;
+  StartedOn?: Date;
+  CompletedOn?: Date;
+  Status: TicketStatus;
 }
