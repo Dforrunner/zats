@@ -104,8 +104,6 @@ export async function PUT(req: NextRequest) {
       data.CompletedOn = new Date().toISOString();
     }
 
-    console.log({ data });
-
     const updatedTicket = await prisma.ticket.update({
       include: {
         Requester: true,

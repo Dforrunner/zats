@@ -12,8 +12,8 @@ export enum TicketStatus {
 
 export interface Ticket {
   Id: number;
-  RequestQueue: RequestQueue;
-  RequestQueueId?: number;
+  RequestQueue?: RequestQueue;
+  RequestQueueId: number;
   RequesterId: number;
   Requester: RequestArea;
   CreatedOn: Date;

@@ -3,6 +3,6 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "prettier.jsxSingleQuote": true,
-    "prettier.printWidth": 130,
+    "prettier.printWidth": 80,
     "prettier.singleQuote": true
 }
