@@ -17,7 +17,7 @@ export default function QueueSelection() {
   });
 
   return (
-    <div className='w-full px-5 flex flex-col gap-5'>
+    <div className='w-full px-5 pt-10 flex flex-col gap-5'>
       {data &&
         data.length &&
         data.map((queue) => (

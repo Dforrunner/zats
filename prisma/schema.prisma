@@ -4,9 +4,15 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// datasource db {
+//   provider = "sqlserver"
+//   url      = env("DATABASE_URL")
+// }
+
 datasource db {
-  provider = "sqlserver"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model Ticket {
@@ -20,6 +26,7 @@ model Ticket {
   CompletedOn    DateTime?
   Status         String       @default("Open")
   RequesterId    Int
+  PlantId        Int
 
   @@map(name: "Tickets")
 }

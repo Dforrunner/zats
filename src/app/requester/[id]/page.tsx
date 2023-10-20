@@ -26,7 +26,10 @@ export default async function Page({ params }: Props) {
   const area = await getArea(Number(params.id));
 
   return (
-    <main className='w-screen h-screen'>
+    <main className='w-screen h-screen overflow-hidden'>
+      <div className='progress-animation'>
+
+      </div>
       {area && 
       <>
         <PageHeader title={`${area?.Name} ${area?.Description ? ' - ' + area?.Description : ''}`} />

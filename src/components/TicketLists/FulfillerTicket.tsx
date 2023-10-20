@@ -43,7 +43,7 @@ export default function FulfillerTicket({ ticket, queue }: Props) {
     <Button
       variant="outlined"
       onClick={() => handleStatusChange(status)}
-      className={name}
+      className={'w-[150px] '+name}
     >
       {name}
     </Button>
@@ -52,7 +52,7 @@ export default function FulfillerTicket({ ticket, queue }: Props) {
   return (
     <TicketBase
       title={`${ticket.Requester.Name} ${
-        ticket.Requester.Description && " - " + ticket.Requester.Description
+        ticket.Requester.Description ? " - " + ticket.Requester.Description : ''
       }`}
       subtitle={queue.Name}
       ticket={ticket}

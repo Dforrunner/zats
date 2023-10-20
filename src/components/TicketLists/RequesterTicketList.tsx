@@ -6,10 +6,11 @@ import axios from 'axios';
 import RequesterTicket from './RequesterTicket';
 import { RequestArea } from '@/models/RequestArea';
 import { GET } from '@/models/Endpoints';
+import { TicketStatus } from '@/models/Ticket';
 
 interface Props {
   id?: string;
-  area: any //TODO: fix type to match prisma RequestArea type
+  area: any; //TODO: fix type to match prisma RequestArea type
 }
 export default function RequesterTicketList({ id }: Props) {
   const { data } = useQuery({
@@ -18,14 +19,18 @@ export default function RequesterTicketList({ id }: Props) {
       const { data } = await axios.get(GET.RequestArea, { params: { Id: id } });
       return data as RequestArea;
     },
+    refetchInterval: 15000,
   });
 
-
   return (
-    <div className='flex flex-col items-center gap-3 w-full overflow-auto h-full pb-10'>
-      {data?.Tickets?.map((ticket) => (
-        <RequesterTicket key={uuidv4()} ticket={ticket} area={data} />
-      ))}
+    <div className='w-full overflow-auto h-full pb-[400px] px-8'>
+      {data?.Tickets?.filter(
+        (t) => ![TicketStatus.Confirmed, TicketStatus.Canceled].includes(t.Status)
+      )
+        .sort((a, b) => new Date(b.CreatedOn).getTime() - new Date(a.CreatedOn).getTime())
+        .map((ticket) => (
+          <RequesterTicket key={uuidv4()} ticket={ticket} area={data} />
+        ))}
     </div>
   );
 }

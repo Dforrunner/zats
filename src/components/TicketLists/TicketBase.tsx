@@ -18,7 +18,7 @@ export default function TicketBase({
   children,
 }: Props) {
   return (
-    <div className="w-[90%] h-[200px] border-[1px] border-slate-400 border-solid rounded bg-white flex flex-col justify-between p-3">
+    <div className="w-full h-[200px] border-[1px] border-slate-400 border-solid rounded bg-white flex flex-col justify-between p-3 my-3">
       <div className="flex justify-between">
         <div className="flex flex-col">
           <div className="text-2xl">{title}</div>

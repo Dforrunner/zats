@@ -19,8 +19,7 @@
 body {
   color: rgb(var(--foreground-rgb));
   padding: 0;
-  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb)))
-    rgb(var(--background-start-rgb));
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
 
 .Open {
@@ -56,4 +55,23 @@ body {
 .CloseRequest {
   color: rgba(61, 61, 61, 0.7);
   border-color: rgba(61, 61, 61, 0.7);
+}
+
+.progress-animation {
+  animation: grow;
+  animation-duration: 10s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  background-color: rgb(59, 130, 246);
+  height: 5px;
+}
+
+
+@keyframes grow {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
 }
