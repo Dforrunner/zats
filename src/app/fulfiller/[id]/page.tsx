@@ -1,25 +1,7 @@
 import PageHeader from '@/components/PageHeader';
 import { FulfillerTicketList } from '@/components/TicketLists';
-import prisma from '@/lip/prisma';
-import { RequestArea } from '@/models/RequestArea';
-import { RequestQueue } from '@/models/RequestQueue';
-import { redirect } from 'next/navigation';
-
-const getRequestQueue = async (id: number) => {
-  return await prisma.requestQueue.findFirst({
-    where: {
-      Id: id,
-    },
-  }) as RequestQueue;
-};
-
-const getRequestAreas = async () => {
-  return await prisma.requestArea.findMany({
-    where: {
-      Status: 'Active',
-    },
-  });
-};
+import { getRequestAreas, getRequestQueue } from '@/lip/requests';
+import TicketQueueProvider from '@/providers/TicketStore';
 
 interface Props {
   params: {
@@ -27,15 +9,25 @@ interface Props {
   };
 }
 export default async function Page({ params }: Props) {
-  const queue = await getRequestQueue(Number(params.id));
+  const queue = await getRequestQueue(params.id);
 
-  if(!queue) return redirect('/fulfiller');
+  const tickets = !!queue.Tickets?.length;
 
-  const requestAreas = await getRequestAreas();
+  const requestAreas = tickets ? await getRequestAreas() : [];
+
   return (
     <main className='w-screen h-screen'>
-      <PageHeader title={queue?.Name} />     
-      <FulfillerTicketList id={params.id} requestAreas={requestAreas as RequestArea} queue={queue}/>
+      <PageHeader title={queue?.Name} href='/fulfiller' />
+      {tickets ? (
+        <TicketQueueProvider initialData={queue.Tickets}>
+          <FulfillerTicketList
+            requestAreas={requestAreas}
+            queue={queue}
+          />
+        </TicketQueueProvider>
+      ) : (
+        <div className='text-center py-10'>Queue is empty</div>
+      )}
     </main>
   );
 }

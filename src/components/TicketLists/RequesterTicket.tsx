@@ -1,37 +1,24 @@
-"use client";
+'use client';
 
-import { Ticket, TicketStatus } from "@/models/Ticket";
-import { Button } from "@mui/material";
-import TicketBase from "./TicketBase";
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
-import { queryClient } from "@/context/TanStackContext";
-import { RequestArea } from "@/models/RequestArea";
-import { POST } from "@/models/Endpoints";
+import { Ticket, TicketStatus } from '@/models/Ticket';
+import { Button } from '@mui/material';
+import TicketBase from './TicketBase';
+import { RequestArea } from '@/models/RequestArea';
+import { useContext } from 'react';
+import { TicketQueueContext } from '@/providers/TicketStore';
 
 interface Props {
   ticket: Ticket;
   area: RequestArea;
 }
 export default function RequesterTicket({ ticket, area }: Props) {
-  const mutation = useMutation({
-    mutationFn: (ticket: Ticket) => {
-      return axios.put(POST.Ticket, ticket);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["requesterArea"]
-      });
-    },
-  });
-
-  const handleStatusChange = (status: TicketStatus) => {
-    const updatedTicket = {
+  const { updateTicket } = useContext(TicketQueueContext);
+  
+  const handleStatusChange = async (status: TicketStatus) => {
+    updateTicket({
       ...ticket,
       Status: status,
-    };
-
-    mutation.mutate(updatedTicket);
+    });
   };
 
   const ActionButton = ({
@@ -42,9 +29,9 @@ export default function RequesterTicket({ ticket, area }: Props) {
     name: string;
   }) => (
     <Button
-      variant="outlined"
+      variant='outlined'
       onClick={() => handleStatusChange(status)}
-      className={name.replace(" ", "")}
+      className={name.replace(' ', '')}
     >
       {name}
     </Button>
@@ -52,21 +39,23 @@ export default function RequesterTicket({ ticket, area }: Props) {
 
   return (
     <TicketBase
-      title={ticket.RequestQueue.Name}
-      subtitle={`${area.Name}${area.Description ? " - " + area.Description : ''}`}
+      title={ticket.RequestQueue!.Name}
+      subtitle={`${area.Name}${
+        area.Description ? ' - ' + area.Description : ''
+      }`}
       ticket={ticket}
     >
-      <div className="flex gap-2">
+      <div className='flex gap-2'>
         {ticket.Status === TicketStatus.Completed && (
           <ActionButton
             status={TicketStatus.Confirmed}
-            name="Confirm Completion"
+            name='Confirm Completion'
           />
         )}
 
         {ticket.Status !== TicketStatus.Confirmed &&
           ticket.Status !== TicketStatus.Completed && (
-            <ActionButton status={TicketStatus.Canceled} name="Close Request" />
+            <ActionButton status={TicketStatus.Canceled} name='Close Request' />
           )}
       </div>
     </TicketBase>

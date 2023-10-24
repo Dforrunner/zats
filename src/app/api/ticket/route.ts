@@ -73,6 +73,10 @@ export async function POST(req: NextRequest) {
           },
         },
       },
+      include: {
+        Requester: true,
+        RequestQueue: true,
+      },
     });
 
     return NextResponse.json(insertedTicket, { status: 200 });

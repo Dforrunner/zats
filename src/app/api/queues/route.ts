@@ -1,13 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import prisma from '@/lip/prisma';
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
-    const requestQueues = await prisma.requestQueue.findMany({
-      include: {
-        Tickets: false,
-      },
-    });
+    const requestQueues = await prisma.requestQueue.findMany();
 
     return NextResponse.json(requestQueues, { status: 200 });
   } catch (error) {

@@ -3,37 +3,24 @@
 import { Button } from '@mui/material';
 import { QuickRequest } from '@/models/QuickRequest';
 import { v4 as uuidv4 } from 'uuid';
-import { RequestArea, RequestQueue } from '@prisma/client';
-import { useMutation } from '@tanstack/react-query';
-import { POST } from '@/models/Endpoints';
-import axios from 'axios';
-import { queryClient } from '@/context/TanStackContext';
-import { TicketPostBody } from '@/models/RequestDataModels';
+import { RequestArea } from '@/models/RequestArea';
+import { RequestQueue } from '@/models/RequestQueue';
+import { TicketQueueContext } from '@/providers/TicketStore';
+import { useContext } from 'react';
 
 interface Props {
   queues: RequestQueue[];
   area?: RequestArea;
 }
 export default function QuickRequest({ queues, area }: Props) {
-  const mutation = useMutation({
-    mutationFn: (data: TicketPostBody) => {
-      return axios.post(POST.Ticket, data);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['requesterArea'],
-      });
-    },
-  });
+  const { addTicket } = useContext(TicketQueueContext);
 
-  const createTicket = (queue: RequestQueue) => {
-    if (area) {
-      mutation.mutate({
-        PlantId: area.PlantId,
-        RequesterId: area.Id,
-        RequestQueueId: queue.Id,
-      });
-    }
+  const createTicket = async (queue: RequestQueue) => {
+    addTicket({
+      PlantId: area!.PlantId,
+      RequesterId: area!.Id,
+      RequestQueueId: queue.Id,
+    });
   };
 
   return (

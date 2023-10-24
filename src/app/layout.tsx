@@ -1,6 +1,6 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import TanStackProvider from '@/context/TanStackContext';
+
 export const metadata: Metadata = {
   title: 'ZATS',
   description: 'Zone Assistance Ticketing System',
@@ -16,7 +16,7 @@ export default function RootLayout({ children }: Props) {
         <title>ZATS</title>
       </head>
       <body>
-        <TanStackProvider>{children}</TanStackProvider>
+        {children}
       </body>
     </html>
   );

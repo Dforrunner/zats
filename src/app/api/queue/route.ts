@@ -4,9 +4,9 @@ import prisma from '@/lip/prisma';
 export async function GET(req: NextRequest) {
   const queueId = await req.nextUrl.searchParams.get('Id');
   console.log({ queueId });
-  // if (!queueId) {
-  //   return NextResponse.redirect('/fulfiller');
-  // }
+  if (!queueId) {
+    return NextResponse.redirect('/fulfiller');
+  }
 
   try {
     const requestQueue = await prisma.requestQueue.findFirst({
