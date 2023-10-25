@@ -5,7 +5,7 @@ import { Button } from '@mui/material';
 import TicketBase from './TicketBase';
 import { RequestArea } from '@/models/RequestArea';
 import { useContext } from 'react';
-import { TicketQueueContext } from '@/providers/TicketStore';
+import { TicketQueueContext } from '@/providers/TicketQueue';
 
 interface Props {
   ticket: Ticket;
@@ -13,7 +13,7 @@ interface Props {
 }
 export default function RequesterTicket({ ticket, area }: Props) {
   const { updateTicket } = useContext(TicketQueueContext);
-  
+
   const handleStatusChange = async (status: TicketStatus) => {
     updateTicket({
       ...ticket,

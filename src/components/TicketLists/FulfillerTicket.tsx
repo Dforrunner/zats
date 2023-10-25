@@ -5,7 +5,7 @@ import { Button } from '@mui/material';
 import TicketBase from './TicketBase';
 import { RequestQueue } from '@/models/RequestQueue';
 import { useContext } from 'react';
-import { TicketQueueContext } from '@/providers/TicketStore';
+import { TicketQueueContext } from '@/providers/TicketQueue';
 
 interface Props {
   ticket: Ticket;

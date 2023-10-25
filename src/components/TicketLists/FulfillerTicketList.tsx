@@ -8,7 +8,7 @@ import { useContext, useEffect, useState } from 'react';
 import { RequestQueue } from '@/models/RequestQueue';
 import { RequestArea } from '@/models/RequestArea';
 import { TicketFilters } from '@/models/TicketFilters';
-import { TicketQueueContext } from '@/providers/TicketStore';
+import { TicketQueueContext } from '@/providers/TicketQueue';
 
 interface Props {
   requestAreas: RequestArea[];

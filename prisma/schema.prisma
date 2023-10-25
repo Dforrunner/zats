@@ -4,16 +4,16 @@ generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "sqlserver"
-  url      = env("DATABASE_URL")
-}
-
 // datasource db {
-//   provider  = "postgresql"
-//   url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-//   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+//   provider = "sqlserver"
+//   url      = env("DATABASE_URL")
 // }
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
 
 model Ticket {
   Id             Int          @id @default(autoincrement())
@@ -32,10 +32,11 @@ model Ticket {
 }
 
 model AuthorizedIpAddress {
-  Id      Int    @id @default(autoincrement())
-  Ip      String
-  Plant   Plant  @relation(fields: [PlantId], references: [Id])
-  PlantId Int
+  Id        Int      @id @default(autoincrement())
+  Ip        String
+  Plant     Plant    @relation(fields: [PlantId], references: [Id])
+  PlantId   Int
+  CreatedOn DateTime @default(now())
 
   @@map(name: "AuthorizedIpAddresses")
 }
@@ -46,17 +47,19 @@ model Plant {
   IpAddresses  AuthorizedIpAddress[]
   RequestQueue RequestQueue[]
   RequestArea  RequestArea[]
+  CreatedOn    DateTime              @default(now())
 
   @@map(name: "Plants")
 }
 
 model RequestQueue {
-  Id      Int      @id @default(autoincrement())
-  Name    String   @db.VarChar(64)
-  Status  String?  @db.VarChar(24)
-  Plant   Plant    @relation(fields: [PlantId], references: [Id])
-  PlantId Int
-  Tickets Ticket[]
+  Id        Int      @id @default(autoincrement())
+  Name      String   @db.VarChar(64)
+  Status    String?  @db.VarChar(24)
+  Plant     Plant    @relation(fields: [PlantId], references: [Id])
+  PlantId   Int
+  Tickets   Ticket[]
+  CreatedOn DateTime @default(now())
 
   @@map(name: "RequestQueues")
 }
@@ -69,6 +72,7 @@ model RequestArea {
   Plant       Plant    @relation(fields: [PlantId], references: [Id])
   PlantId     Int
   Tickets     Ticket[]
+  CreatedOn   DateTime @default(now())
 
   @@map(name: "RequestAreas")
 }

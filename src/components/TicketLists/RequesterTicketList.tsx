@@ -5,16 +5,16 @@ import RequesterTicket from './RequesterTicket';
 import { TicketStatus } from '@/models/Ticket';
 import { RequestArea } from '@/models/RequestArea';
 import { useContext } from 'react';
-import { TicketQueueContext } from '@/providers/TicketStore';
+import { TicketQueueContext } from '@/providers/TicketQueue';
 
 interface Props {
   area: RequestArea;
 }
-export default function RequesterTicketList({ area }: Props) {  
+export default function RequesterTicketList({ area }: Props) {
   const { ticketList } = useContext(TicketQueueContext);
 
   if (!ticketList!.length) return <div className='text-center'>No tickets</div>;
-  
+
   return (
     <div className='w-full overflow-auto h-full pb-[400px] px-8'>
       {ticketList

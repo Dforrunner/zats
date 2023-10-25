@@ -5,7 +5,7 @@ import { QuickRequest } from '@/models/QuickRequest';
 import { v4 as uuidv4 } from 'uuid';
 import { RequestArea } from '@/models/RequestArea';
 import { RequestQueue } from '@/models/RequestQueue';
-import { TicketQueueContext } from '@/providers/TicketStore';
+import { TicketQueueContext } from '@/providers/TicketQueue';
 import { useContext } from 'react';
 
 interface Props {
