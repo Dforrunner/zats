@@ -40,7 +40,7 @@ export default function RequesterTicket({ ticket, area }: Props) {
   return (
     <TicketBase
       title={ticket.RequestQueue!.Name}
-      subtitle={`${area.Name}${
+      subtitle={`${area?.Name}${
         area.Description ? ' - ' + area.Description : ''
       }`}
       ticket={ticket}

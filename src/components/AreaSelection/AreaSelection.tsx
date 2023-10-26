@@ -20,7 +20,7 @@ export default async function AreaSelection() {
           key={uuidv4()}
           className={`bg-blue-500 w-full h-[60px] text-2xl`}
         >
-          {area.Name} {area.Description && ' - ' + area.Description}
+          {area?.Name} {area.Description && ' - ' + area.Description}
         </Link>
       ))}
     </div>

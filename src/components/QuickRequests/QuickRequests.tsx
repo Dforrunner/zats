@@ -32,7 +32,7 @@ export default function QuickRequest({ queues, area }: Props) {
           key={uuidv4()}
           onClick={() => createTicket(queue)}
         >
-          {queue.Name}
+          {queue?.Name}
         </Button>
       ))}
     </div>
