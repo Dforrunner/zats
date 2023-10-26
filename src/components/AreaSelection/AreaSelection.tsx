@@ -6,7 +6,6 @@ export const revalidate = 5;
 
 export default async function AreaSelection() {
   const areas = await getRequestAreas();
-  console.log('RAN');
 
   if (!areas.length)
     return <div className='text-center py-10'>Areas not found</div>;

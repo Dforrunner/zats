@@ -5,7 +5,7 @@ import RequesterTicket from './RequesterTicket';
 import { TicketStatus } from '@/models/Ticket';
 import { RequestArea } from '@/models/RequestArea';
 import { useContext } from 'react';
-import { TicketQueueContext } from '@/providers/TicketQueue';
+import { TicketQueueContext } from '@/providers/TicketQueueProvider';
 
 interface Props {
   area: RequestArea;
