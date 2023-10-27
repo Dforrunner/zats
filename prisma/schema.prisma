@@ -4,6 +4,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator custom_generator {
+    provider = "prisma-generator-fake-data"
+    output   = "./fake-data.ts"
+}
+
 // datasource db {
 //   provider = "sqlserver"
 //   url      = env("DATABASE_URL")
@@ -26,38 +31,15 @@ model Ticket {
   CompletedOn    DateTime?
   Status         String       @default("Open")
   RequesterId    Int
-  PlantId        Int
 
   @@map(name: "Tickets")
 }
 
-model AuthorizedIpAddress {
-  Id        Int      @id @default(autoincrement())
-  Ip        String
-  Plant     Plant    @relation(fields: [PlantId], references: [Id])
-  PlantId   Int
-  CreatedOn DateTime @default(now())
-
-  @@map(name: "AuthorizedIpAddresses")
-}
-
-model Plant {
-  Id           Int                   @id @default(autoincrement())
-  Name         String                @db.VarChar(64)
-  IpAddresses  AuthorizedIpAddress[]
-  RequestQueue RequestQueue[]
-  RequestArea  RequestArea[]
-  CreatedOn    DateTime              @default(now())
-
-  @@map(name: "Plants")
-}
 
 model RequestQueue {
   Id        Int      @id @default(autoincrement())
   Name      String   @db.VarChar(64)
   Status    String?  @db.VarChar(24)
-  Plant     Plant    @relation(fields: [PlantId], references: [Id])
-  PlantId   Int
   Tickets   Ticket[]
   CreatedOn DateTime @default(now())
 
@@ -69,55 +51,8 @@ model RequestArea {
   Name        String   @db.VarChar(64)
   Description String?  @db.VarChar(64)
   Status      String   @default("Active")
-  Plant       Plant    @relation(fields: [PlantId], references: [Id])
-  PlantId     Int
   Tickets     Ticket[]
   CreatedOn   DateTime @default(now())
 
   @@map(name: "RequestAreas")
-}
-
-model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.Text
-  session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-}
-
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-}
-
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
 }

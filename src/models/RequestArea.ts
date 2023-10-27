@@ -7,7 +7,6 @@ export interface RequestArea {
   Name: string;
   Description?: string;
   Status: Status;
-  PlantId: number;
   Tickets?: Ticket[];
   Plant?: Plant
 }

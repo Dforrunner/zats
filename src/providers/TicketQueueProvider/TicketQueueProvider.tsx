@@ -89,11 +89,9 @@ export default function TicketQueueProvider({
       state.some(
         (ticket) =>
           ticket.RequesterId === ticketBody.RequesterId &&
-          ticket.PlantId === ticketBody.PlantId &&
           ticket.RequestQueueId === ticketBody.RequestQueueId &&
           ![
             TicketStatus.Confirmed,
-            TicketStatus.Completed,
             TicketStatus.Canceled,
           ].includes(ticket.Status)
       )

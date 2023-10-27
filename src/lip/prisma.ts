@@ -1,7 +1,32 @@
+import { getTimeInSeconds } from '@/helpers/datetime-format';
 import { PrismaClient } from '@prisma/client';
 
 const prismaClientSingleton = () => {
-  return new PrismaClient();
+  return new PrismaClient()
+    .$extends({
+      result: {
+        ticket: {
+          WaitTime: {
+            compute(ticket) {
+              return getTimeInSeconds(ticket.CreatedOn, ticket.CompletedOn);
+            },
+          },
+        },
+      },
+    })
+    .$extends({
+      result: {
+        requestArea: {
+          Title: {
+            compute(area) {
+              return `${area.Name}${
+                area.Description ? ' - ' + area.Description : ''
+              }`;
+            },
+          },
+        },
+      },
+    });;
 };
 
 type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>;

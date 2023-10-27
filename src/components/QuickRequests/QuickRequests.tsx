@@ -17,7 +17,6 @@ export default function QuickRequest({ queues, area }: Props) {
 
   const createTicket = async (queue: RequestQueue) => {
     addTicket({
-      PlantId: area!.PlantId,
       RequesterId: area!.Id,
       RequestQueueId: queue.Id,
     });
