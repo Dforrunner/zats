@@ -39,10 +39,10 @@ export default function FulfillerTicket({ ticket, queue }: Props) {
 
   return (
     <TicketBase
-      title={`${ticket.Requester.Name} ${
+      title={`${ticket.Requester?.Name} ${
         ticket.Requester.Description ? ' - ' + ticket.Requester.Description : ''
       }`}
-      subtitle={queue.Name}
+      subtitle={queue?.Name}
       ticket={ticket}
     >
       <div className='flex gap-2'>

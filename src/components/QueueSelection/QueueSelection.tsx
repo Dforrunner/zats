@@ -18,7 +18,7 @@ export default async function QueueSelection() {
           key={uuidv4()}
           className={`bg-blue-500 w-full h-[100px] text-2xl`}
         >
-          {queue.Name}
+          {queue?.Name}
         </Link>
       ))}
     </div>

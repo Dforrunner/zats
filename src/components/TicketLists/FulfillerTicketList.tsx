@@ -46,7 +46,7 @@ export default function FulfillerTicketList({ requestAreas, queue }: Props) {
       return setTickets(
         ticketList.filter(
           (ticket) =>
-            Areas.includes(ticket.Requester.Name) &&
+            Areas.includes(ticket.Requester?.Name) &&
             Statuses.includes(ticket.Status)
         )
       );
@@ -59,7 +59,7 @@ export default function FulfillerTicketList({ requestAreas, queue }: Props) {
     }
 
     setTickets(
-      allActiveTickets.filter((t) => Areas.includes(t.Requester.Name))
+      allActiveTickets.filter((t) => Areas.includes(t.Requester?.Name))
     );
   };
 

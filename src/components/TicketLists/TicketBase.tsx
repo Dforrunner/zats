@@ -45,7 +45,7 @@ export default function TicketBase({
             </span>
           </div>
           <div>
-            Wait Duration: {/*timeDiff(ticket.CreatedOn, ticket.CompletedOn) //TODO: unfreeze*/} FROZEN
+            Wait Duration: {timeDiff(ticket.CreatedOn, ticket.CompletedOn)}
           </div>
         </div>
         <div className='flex gap-2'>{children}</div>
