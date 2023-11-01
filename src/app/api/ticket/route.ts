@@ -24,7 +24,6 @@ export async function POST(req: NextRequest) {
   try {
     const data = (await req.json()) as TicketPostBody;
 
-    //TODO: Add request validation
     const schema = z.object({
       RequestQueueId: z.number(),
       RequesterId: z.number(),
