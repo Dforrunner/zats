@@ -1,0 +1,48 @@
+// schema.prisma
+// RESOURCE: https://www.prisma.io/docs/concepts/components/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL_SAND")
+}
+
+
+model Ticket {
+  Id             Int          @id @default(autoincrement())
+  RequestQueue   RequestQueue @relation(fields: [RequestQueueId], references: [Id], onDelete: NoAction, onUpdate: NoAction)
+  RequestQueueId Int
+  Requester      RequestArea  @relation(fields: [RequesterId], references: [Id], onDelete: NoAction, onUpdate: NoAction)
+  CreatedOn      DateTime     @default(now())
+  AssignedOn     DateTime?
+  StartedOn      DateTime?
+  CompletedOn    DateTime?
+  Status         String       @default("Open")
+  RequesterId    Int
+
+  @@map(name: "Tickets")
+}
+
+
+model RequestQueue {
+  Id        Int      @id @default(autoincrement())
+  Name      String   @db.VarChar(64)
+  Status    String?  @db.VarChar(24)
+  Tickets   Ticket[]
+  CreatedOn DateTime @default(now())
+
+  @@map(name: "RequestQueues")
+}
+
+model RequestArea {
+  Id          Int      @id @default(autoincrement())
+  Name        String   @db.VarChar(64)
+  Description String?  @db.VarChar(64)
+  Status      String   @default("Active")
+  Tickets     Ticket[]
+  CreatedOn   DateTime @default(now())
+
+  @@map(name: "RequestAreas")
+}

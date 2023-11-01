@@ -15,7 +15,7 @@ export default async function QueueSelection() {
           href={`/fulfiller/${queue.Id}`}
           type='button'
           variant='contained'
-          key={uuidv4()}
+          key={queue.Name + 'q-selection'}
           className={`bg-blue-500 w-full h-[100px] text-2xl`}
         >
           {queue?.Name}

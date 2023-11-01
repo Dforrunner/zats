@@ -14,7 +14,6 @@ import { TicketStatus } from '@/models/Ticket';
 import { v4 as uuidv4 } from 'uuid';
 import { TicketFilters } from '@/models/TicketFilters';
 
-
 interface Props {
   items: string[];
   onSelect: (filters: TicketFilters) => void;
@@ -63,12 +62,10 @@ export default function MultiSelectFilter({ items, onSelect }: Props) {
   return (
     <div className='w-full flex gap-4 my-5'>
       <FormControl className='w-full'>
-        <InputLabel id='demo-multiple-chip-label'>
-          Filter by requester
-        </InputLabel>
+        <InputLabel id='requesterFilterLabel'>Filter by requester</InputLabel>
         <Select
-          labelId='demo-multiple-chip-label'
-          id='demo-multiple-chip'
+          className='min-h-[65px]'
+          labelId='requesterFilterLabel'
           multiple
           value={selectedAreas}
           onChange={handleAreaFilterChange}
@@ -95,10 +92,10 @@ export default function MultiSelectFilter({ items, onSelect }: Props) {
       </FormControl>
 
       <FormControl className='w-full'>
-        <InputLabel id='demo-multiple-chip-label'>Filter by status</InputLabel>
+        <InputLabel id='statusFilterLabel'>Filter by status</InputLabel>
         <Select
-          labelId='demo-multiple-chip-label'
-          id='demo-multiple-chip'
+          className='min-h-[65px]'
+          labelId='statusFilterLabel'
           multiple
           value={selectedStatuses}
           onChange={handleStatusFilterChange}
@@ -124,7 +121,7 @@ export default function MultiSelectFilter({ items, onSelect }: Props) {
         </Select>
       </FormControl>
 
-      <Button variant='outlined' onClick={reset}>
+      <Button variant='outlined' onClick={reset} className='h-[65px]'>
         Reset
       </Button>
     </div>

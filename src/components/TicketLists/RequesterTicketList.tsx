@@ -29,7 +29,11 @@ export default function RequesterTicketList({ area }: Props) {
             new Date(b.CreatedOn).getTime() - new Date(a.CreatedOn).getTime()
         )
         .map((ticket) => (
-          <RequesterTicket key={uuidv4()} ticket={ticket as any} area={area} />
+          <RequesterTicket
+            key={ticket.Id + 'requester'}
+            ticket={ticket as any}
+            area={area}
+          />
         ))}
     </div>
   );

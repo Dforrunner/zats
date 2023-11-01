@@ -40,9 +40,7 @@ export default function RequesterTicket({ ticket, area }: Props) {
   return (
     <TicketBase
       title={ticket.RequestQueue!.Name}
-      subtitle={`${area?.Name}${
-        area.Description ? ' - ' + area.Description : ''
-      }`}
+      subtitle={area.Title}
       ticket={ticket}
     >
       <div className='flex gap-2'>

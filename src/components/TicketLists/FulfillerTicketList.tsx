@@ -17,6 +17,10 @@ interface Props {
 export default function FulfillerTicketList({ requestAreas, queue }: Props) {
   const areaNames = requestAreas.map((a) => a.Name);
   const { ticketList } = useContext(TicketQueueContext);
+  const [filter, setFilters] = useState<TicketFilters>({
+    Areas: [],
+    Statuses: [],
+  });
 
   const sortedTickets = ticketList.sort(
     (a, b) => new Date(b.CreatedOn).getTime() - new Date(a.CreatedOn).getTime() //Sorting by date
@@ -33,11 +37,15 @@ export default function FulfillerTicketList({ requestAreas, queue }: Props) {
 
   const [tickets, setTickets] = useState(allActiveTickets);
 
+  //Runs filter logic every time ticketList data changes
   useEffect(() => {
-    setTickets(allActiveTickets);
+    handleFilter(filter);
   }, [ticketList]);
 
-  const handleFilter = ({ Areas, Statuses }: TicketFilters) => {
+  const handleFilter = (filters: TicketFilters) => {
+    setFilters(filters);
+    const { Areas, Statuses } = filters;
+
     if (!Areas.length && !Statuses.length) {
       return setTickets(allActiveTickets);
     }
@@ -64,18 +72,26 @@ export default function FulfillerTicketList({ requestAreas, queue }: Props) {
   };
 
   return (
-    <div className='flex flex-col items-center gap-3 w-full overflow-auto h-full pb-10 px-8'>
-      <MultiSelectFilter items={areaNames} onSelect={handleFilter} />
+    <div className='flex flex-col w-full h-full'>
+      <div className='w-full px-10'>
+        <MultiSelectFilter items={areaNames} onSelect={handleFilter} />
+      </div>
+
+      <div className='overflow-auto w-full pb-10 px-8'>
+        {tickets.map((ticket) => (
+          <FulfillerTicket
+            queue={queue}
+            key={ticket.Id + 'fulfiller'}
+            ticket={ticket}
+          />
+        ))}
+      </div>
 
       {!tickets.length && (
         <div className='text-center text-gray-500'>
           There are no active request in this queue
         </div>
       )}
-
-      {tickets.map((ticket) => (
-        <FulfillerTicket queue={queue} key={uuidv4()} ticket={ticket} />
-      ))}
     </div>
   );
 }

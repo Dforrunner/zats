@@ -3,11 +3,7 @@ import prisma from '@/lip/prisma';
 
 export async function GET(req: NextRequest) {
   try {
-    const requestAreas = await prisma.requestArea.findMany({
-      include: {
-        Tickets: false,
-      },
-    });
+    const requestAreas = await prisma.requestArea.findMany();
 
     return NextResponse.json(requestAreas, { status: 200 });
   } catch (error) {

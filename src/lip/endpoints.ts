@@ -15,6 +15,8 @@ export const GET = {
     route('/api/queues', params),
   RequestQueue: (params?: Record<string, string>) =>
     route('/api/queue', params),
+  Stats: (params?: Record<string, string>) =>
+    route('/api/stats', params),
 };
 
 export const POST = {

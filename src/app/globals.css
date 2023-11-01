@@ -6,31 +6,32 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --open: rgb(48, 137, 231);
+  --assigned: rgb(249, 182, 93);
+  --in-progress: rgb(89, 212, 89);
 }
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-} */
 
 body {
   color: rgb(var(--foreground-rgb));
   padding: 0;
-  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
 }
 
+/*TICKET STATUS TEXT COLORS */
 .Open {
-  color: rgb(0, 97, 177);
+  color: var(--open);
 }
 .Assigned {
-  color: rgb(224, 183, 0);
+  color: var(--assigned);
 }
 .InProgress,
 .Confirmed {
-  color: rgb(4, 194, 4);
+  color: var(--in-progress);
 }
 .Completed {
   color: rgb(48, 48, 48);
@@ -39,6 +40,18 @@ body {
   color: rgb(192, 2, 2);
 }
 
+/*TICKET STATUS BACKGROUND COLORS */
+.Open-bg {
+  background-color: var(--open);
+}
+.Assigned-bg {
+  background-color: var(--assigned);
+}
+.InProgress-bg {
+  background-color: var(--in-progress);
+}
+
+/*FULFILLER TICKET ACTION BUTTON COLORS */
 .Accept {
   color: rgb(0, 97, 177);
   border-color: rgb(0, 97, 177);
@@ -57,20 +70,6 @@ body {
   border-color: rgba(61, 61, 61, 0.7);
 }
 
-.progress-animation {
-  animation: grow;
-  animation-duration: 10s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  background-color: rgb(59, 130, 246);
-  height: 5px;
-}
-
-@keyframes grow {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
+.text-shadow {
+  text-shadow: 0px 0px 10px black;
 }

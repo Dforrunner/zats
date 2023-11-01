@@ -2,8 +2,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'ZATS',
-  description: 'Zone Assistance Ticketing System',
+  title: 'Andon',
+  description: 'Area Assistance Ticketing System',
 };
 
 interface Props {
@@ -13,7 +13,7 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang='en'>
       <head>
-        <title>ZATS</title>
+        <title>Andon</title>
       </head>
       <body>
         {children}

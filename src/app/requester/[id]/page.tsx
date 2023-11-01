@@ -22,9 +22,7 @@ export default async function Page({ params }: Props) {
   return (
     <main className='w-screen h-screen overflow-hidden'>
       <PageHeader
-        title={`${area?.Name} ${
-          area?.Description ? ' - ' + area?.Description : ''
-        }`}
+        title={area.Title}
         href='/requester'
       />
       <TicketQueueProvider

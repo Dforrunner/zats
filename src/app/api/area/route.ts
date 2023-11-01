@@ -2,16 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lip/prisma';
 
 export async function GET(req: NextRequest) {
-  const queueId = await req.nextUrl.searchParams.get('Id');
+  const areaId = await req.nextUrl.searchParams.get('Id');
 
-  if (!queueId) {
+  if (!areaId) {
     return NextResponse.redirect('/requester');
   }
 
   try {
     const requestArea = await prisma.requestArea.findFirst({
       where: {
-        Id: Number(queueId),
+        Id: Number(areaId),
       },
       include: {
         Tickets: {

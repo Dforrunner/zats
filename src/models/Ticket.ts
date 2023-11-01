@@ -21,4 +21,5 @@ export interface Ticket {
   StartedOn?: Date;
   CompletedOn?: Date;
   Status: TicketStatus;
+  WaitDuration: number
 }

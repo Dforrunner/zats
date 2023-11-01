@@ -6,13 +6,14 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 interface Props {
   href: string;
+  className?: string;
 }
-export default function BackButton({ href }: Props) {
+export default function BackButton({ href, className }: Props) {
   const router = useRouter();
 
   return (
     <Button
-      className='bg-gray-400 absolute top-5 left-9'
+      className={className || 'bg-gray-400 '}
       onClick={() => router.push(href)}
       variant='contained'
       startIcon={<ArrowBackIosIcon />}

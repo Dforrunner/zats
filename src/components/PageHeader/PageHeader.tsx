@@ -1,15 +1,18 @@
-import { Typography } from "@mui/material";
-import BackButton from "../BackButton";
+import { Typography } from '@mui/material';
+import BackButton from '../BackButton';
 
 interface Props {
-  title: string,
-  href: string
+  title: string;
+  href: string;
 }
 export default function PageHeader({ title, href }: Props) {
   return (
-    <div className='flex justify-center'>
-      <BackButton href={href} />
-      <Typography className='pt-5' variant='h4'>
+    <div className='grid grid-cols-3'>
+      <div className='p-3'>
+        <BackButton href={href} />
+      </div>
+
+      <Typography className='pt-5 text-center' variant='h4'>
         {title}
       </Typography>
     </div>

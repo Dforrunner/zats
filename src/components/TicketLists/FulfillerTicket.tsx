@@ -23,15 +23,17 @@ export default function FulfillerTicket({ ticket, queue }: Props) {
 
   const ActionButton = ({
     status,
+    color,
     name,
   }: {
     status: TicketStatus;
+    color: string;
     name: string;
   }) => (
     <Button
       variant='outlined'
       onClick={() => update(status)}
-      className={'w-[150px] ' + name}
+      className={'w-[180px] ' + color}
     >
       {name}
     </Button>
@@ -39,9 +41,7 @@ export default function FulfillerTicket({ ticket, queue }: Props) {
 
   return (
     <TicketBase
-      title={`${ticket.Requester?.Name} ${
-        ticket.Requester.Description ? ' - ' + ticket.Requester.Description : ''
-      }`}
+      title={ticket.Requester?.Title}
       subtitle={queue?.Name}
       ticket={ticket}
     >
@@ -50,15 +50,27 @@ export default function FulfillerTicket({ ticket, queue }: Props) {
           switch (ticket.Status) {
             case TicketStatus.Open:
               return (
-                <ActionButton status={TicketStatus.Assigned} name='Accept' />
+                <ActionButton
+                  status={TicketStatus.Assigned}
+                  name='Acknowledge'
+                  color='Accept'
+                />
               );
             case TicketStatus.Assigned:
               return (
-                <ActionButton status={TicketStatus.InProgress} name='Start' />
+                <ActionButton
+                  status={TicketStatus.InProgress}
+                  name='Mark In Progress'
+                  color='Start'
+                />
               );
             case TicketStatus.InProgress:
               return (
-                <ActionButton status={TicketStatus.Completed} name='Complete' />
+                <ActionButton
+                  status={TicketStatus.Completed}
+                  name='Mark Complete'
+                  color='Complete'
+                />
               );
             default:
               return;

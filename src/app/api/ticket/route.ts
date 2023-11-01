@@ -26,7 +26,6 @@ export async function POST(req: NextRequest) {
 
     //TODO: Add request validation
     const schema = z.object({
-      PlantId: z.number(),
       RequestQueueId: z.number(),
       RequesterId: z.number(),
     });
@@ -38,10 +37,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid request', errors }, { status: 400 });
     }
 
-    //TODO: Ensure PlantId exists. Will need another query for that
     const ticketExists = await prisma.ticket.findFirst({
       where: {
-        PlantId: data.PlantId,
         RequestQueueId: data.RequestQueueId,
         RequesterId: data.RequesterId,
         NOT: {
@@ -61,7 +58,6 @@ export async function POST(req: NextRequest) {
 
     const insertedTicket = await prisma.ticket.create({
       data: {
-        PlantId: data.PlantId,
         RequestQueue: {
           connect: {
             Id: data.RequestQueueId,

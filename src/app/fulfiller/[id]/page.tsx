@@ -22,19 +22,24 @@ export default async function Page({ params }: Props) {
   const requestAreas = tickets ? await getRequestAreas() : [];
 
   return (
-    <main className='w-screen h-screen'>
-      <PageHeader title={queue?.Name} href='/fulfiller' />
-      {tickets ? (
-        <TicketQueueProvider
-          initialData={queue.Tickets}
-          viewType={View.Fulfiller}
-          viewId={params.id}
-        >
-          <FulfillerTicketList requestAreas={requestAreas} queue={queue} />
-        </TicketQueueProvider>
-      ) : (
-        <div className='text-center py-10'>Queue is empty</div>
-      )}
+    <main className='w-full flex flex-col items-center'>
+      <div className='h-[6vh] w-full'>
+        <PageHeader title={queue?.Name} href='/fulfiller' />
+      </div>
+
+      <div className='h-[94vh] w-full'>
+        {tickets ? (
+          <TicketQueueProvider
+            initialData={queue.Tickets}
+            viewType={View.Fulfiller}
+            viewId={params.id}
+          >
+            <FulfillerTicketList requestAreas={requestAreas} queue={queue} />
+          </TicketQueueProvider>
+        ) : (
+          <div className='text-center py-10'>Queue is empty</div>
+        )}
+      </div>
     </main>
   );
 }
